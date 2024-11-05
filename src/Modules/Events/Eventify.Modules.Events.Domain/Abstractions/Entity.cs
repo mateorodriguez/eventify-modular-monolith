@@ -6,6 +6,8 @@ public class Entity
     
     protected Entity() { }
 
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.ToList();
+    
     public void ClearDomainEvents()
     {
         _domainEvents.Clear();
