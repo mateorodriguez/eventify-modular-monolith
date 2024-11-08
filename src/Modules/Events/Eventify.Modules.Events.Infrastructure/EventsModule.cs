@@ -1,8 +1,14 @@
 using Eventify.Modules.Events.Application.Abstractions;
+using Eventify.Modules.Events.Application.Abstractions.Clock;
+using Eventify.Modules.Events.Domain.Categories;
 using Eventify.Modules.Events.Domain.Events;
+using Eventify.Modules.Events.Domain.TicketTypes;
+using Eventify.Modules.Events.Infrastructure.Categories;
+using Eventify.Modules.Events.Infrastructure.Clock;
 using Eventify.Modules.Events.Infrastructure.Data;
 using Eventify.Modules.Events.Infrastructure.Database;
-using Eventify.Modules.Events.Infrastructure.Repositories;
+using Eventify.Modules.Events.Infrastructure.Events;
+using Eventify.Modules.Events.Infrastructure.TicketTypes;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
@@ -19,6 +25,8 @@ public static class EventsModule
     {
         services.ConfigureApplicationLayer(configuration);
         services.ConfigureEventsDatabase(configuration);
+
+        services.TryAddSingleton<IDateTimeProvider, DateTimeProvider>();
         
         return services;
     }
@@ -41,7 +49,7 @@ public static class EventsModule
         services.TryAddSingleton(npgsqlDataSource);
 
         services.AddScoped<IDbConnectionFactory, DbConnectionFactory>();
-
+        
         services.AddDbContext<EventsDbContext>(options =>
             options
                 .UseNpgsql(
@@ -51,6 +59,8 @@ public static class EventsModule
                 .UseSnakeCaseNamingConvention());
 
         services.AddScoped<IEventRepository, EventRepository>();
+        services.AddScoped<ITicketTypeRepository, TicketTypeRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
 
         services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<EventsDbContext>());
     }

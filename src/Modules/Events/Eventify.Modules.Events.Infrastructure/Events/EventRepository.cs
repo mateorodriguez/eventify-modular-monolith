@@ -1,7 +1,7 @@
 using Eventify.Modules.Events.Domain.Events;
 using Eventify.Modules.Events.Infrastructure.Database;
 
-namespace Eventify.Modules.Events.Infrastructure.Repositories;
+namespace Eventify.Modules.Events.Infrastructure.Events;
 
 internal sealed class EventRepository(EventsDbContext context) : IEventRepository
 {
