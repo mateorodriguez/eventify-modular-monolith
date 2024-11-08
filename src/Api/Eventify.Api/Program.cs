@@ -1,5 +1,6 @@
 using Eventify.Modules.Events.Infrastructure;
 using Eventify.Modules.Events.Infrastructure.Database;
+using Eventify.Modules.Events.Presentation.Categories;
 using Eventify.Modules.Events.Presentation.Events;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,11 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    //required to avoid exception while building openapi spec
+    options.CustomSchemaIds(t => t.FullName?.Replace("+", "."));
+});
 
 builder.Services.AddEventsModule(builder.Configuration);
 
@@ -25,5 +30,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapEventsEndpoints();
+app.MapCategoriesEndpoints();
 
 app.Run();

@@ -38,7 +38,7 @@ public static class EventsModule
             config.RegisterServicesFromAssembly(Application.AssemblyReference.Assembly);
         });
         
-        services.AddValidatorsFromAssembly(Application.AssemblyReference.Assembly);
+        services.AddValidatorsFromAssembly(Application.AssemblyReference.Assembly, includeInternalTypes: true);
     }
     
     private static void ConfigureEventsDatabase(this IServiceCollection services, IConfiguration configuration)
