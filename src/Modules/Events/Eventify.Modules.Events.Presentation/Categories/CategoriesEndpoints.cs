@@ -8,6 +8,9 @@ public static class CategoriesEndpoints
     {
         CreateCategory.MapEndpoint(builder);
         GetCategory.MapEndpoint(builder);
+        GetCategories.MapEndpoint(builder);
+        ArchiveCategory.MapEndpoint(builder);
+        UpdateCategory.MapEndpoint(builder);
         
         return builder;
     }

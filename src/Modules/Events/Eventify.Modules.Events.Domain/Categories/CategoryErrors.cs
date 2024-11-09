@@ -8,4 +8,8 @@ public static class CategoryErrors
     public static IError NotFound(Guid categoryId) => new DomainError(
         "Categories.NotFound", 
         $"Category with id: '{categoryId}' was not found.");
+    
+    public static readonly IError AlreadyArchived = new DomainError(
+        "Categories.AlreadyArchived",
+        "The category is already archived.");
 }
