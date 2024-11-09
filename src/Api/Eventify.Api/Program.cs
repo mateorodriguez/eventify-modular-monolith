@@ -2,6 +2,7 @@ using Eventify.Modules.Events.Infrastructure;
 using Eventify.Modules.Events.Infrastructure.Database;
 using Eventify.Modules.Events.Presentation.Categories;
 using Eventify.Modules.Events.Presentation.Events;
+using Eventify.Modules.Events.Presentation.TicketTypes;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -31,5 +32,6 @@ app.UseHttpsRedirection();
 
 app.MapEventsEndpoints();
 app.MapCategoriesEndpoints();
+app.MapTicketTypesEndpoints();
 
 app.Run();

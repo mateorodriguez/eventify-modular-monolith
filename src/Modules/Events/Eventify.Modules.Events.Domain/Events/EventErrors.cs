@@ -21,4 +21,8 @@ public static class EventErrors
     public static readonly IError StartDateIsInThePast = new DomainError(
         "Events.StartDateIsInThePast",
         "The start date is in the past");
+    
+    public static IError NotFound(Guid eventId) => new DomainError(
+        "Events.NotFound", 
+        $"Event with id: '{eventId}' was not found.");
 }

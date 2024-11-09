@@ -1,8 +1,18 @@
 using Eventify.Modules.Events.Domain.TicketTypes;
+using Eventify.Modules.Events.Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace Eventify.Modules.Events.Infrastructure.TicketTypes;
 
-internal sealed class TicketTypeRepository : ITicketTypeRepository
+internal sealed class TicketTypeRepository(EventsDbContext context) : ITicketTypeRepository
 {
-    
+    public async Task<TicketType?> GetAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await context.TicketTypes.SingleOrDefaultAsync(t => t.Id == id, cancellationToken);
+    }
+
+    public void Insert(TicketType ticketType)
+    {
+        context.TicketTypes.Add(ticketType);
+    }
 }
