@@ -49,5 +49,51 @@ public sealed class Event : Entity
         
         return anEvent;
     }
+
+    public Result Publish()
+    {
+        if (Status != EventStatus.Draft)
+        {
+            return Result.Fail(EventErrors.NotDraft);
+        }
+        
+        Status = EventStatus.Published;
+        
+        Raise(new EventPublishedDomainEvent(Id));
+        
+        return Result.Ok();
+    }
+
+    public void Reschedule(DateTime startsAtUtc, DateTime? endsAtUtc)
+    {
+        if (StartsAtUtc == startsAtUtc && EndsAtUtc == endsAtUtc)
+        {
+            return;
+        }
+        
+        StartsAtUtc = startsAtUtc;
+        EndsAtUtc = endsAtUtc;
+        
+        Raise(new EventRescheduledDomainEvent(Id, startsAtUtc, endsAtUtc));
+    }
+    
+    public Result Cancel(DateTime utcNow)
+    {
+        if (Status == EventStatus.Canceled)
+        {
+            return Result.Fail(EventErrors.AlreadyCanceled);
+        }
+
+        if (StartsAtUtc < utcNow)
+        {
+            return Result.Fail(EventErrors.AlreadyStarted);
+        }
+        
+        Status = EventStatus.Canceled;
+        
+        Raise(new EventCanceledDomainEvent(Id));
+        
+        return Result.Ok();
+    }
 }
 

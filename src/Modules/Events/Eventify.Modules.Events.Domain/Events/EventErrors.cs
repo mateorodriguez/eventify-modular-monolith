@@ -25,4 +25,20 @@ public static class EventErrors
     public static IError NotFound(Guid eventId) => new DomainError(
         "Events.NotFound", 
         $"Event with id: '{eventId}' was not found.");
+
+    public static readonly IError AlreadyCanceled = new DomainError(
+        "Events.AlreadyCanceled",
+        "The event is already canceled.");
+    
+    public static readonly IError AlreadyStarted = new DomainError(
+        "Events.AlreadyStarted",
+        "The event is already started.");
+    
+    public static readonly Error NoTicketsFound = new DomainError(
+        "Events.NoTicketsFound",
+        "The event does not have any ticket types defined");
+    
+    public static readonly Error NotDraft = new DomainError(
+        "Events.NotDraft", 
+        "The event is not in draft status");
 }
